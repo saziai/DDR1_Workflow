@@ -1,0 +1,16 @@
+{
+  "target_n_actives": 20,
+  "target_n_decoys": 50,
+  "successful_n_actives": 20,
+  "successful_n_decoys": 50,
+  "vina_seed": 7,
+  "selection_seed": 20260914,
+  "full_target_set_successfully_docked": true,
+  "auc": 0.869,
+  "auc_ci95": [
+    0.775975,
+    0.941
+  ],
+  "ef_top_5_percent": 3.5,
+  "interpretation": "Single-seed control benchmark using 20 experimentally defined DDR1 actives and 50 property-matched DrugBank decoys. The decoys are not experimentally confirmed inactive. This benchmark does not validate absolute docking-score tiers."
+}
