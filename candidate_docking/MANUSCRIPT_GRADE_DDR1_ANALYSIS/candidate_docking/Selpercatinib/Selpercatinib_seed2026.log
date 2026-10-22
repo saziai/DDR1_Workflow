@@ -1,0 +1,61 @@
+/usr/bin/vina --receptor /content/drive/MyDrive/DDR1_Workflow/candidate_docking/receptor/5SB1_receptor.pdbqt --ligand /content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/ligand_preparation/pdbqt/Selpercatinib.pdbqt --center_x 22.764719009399414 --center_y -2.076000213623047 --center_z -1.1666250228881836 --size_x 22.0 --size_y 22.0 --size_z 22.0 --exhaustiveness 32 --num_modes 20 --energy_range 4.0 --cpu 2 --seed 2026 --out /content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/candidate_docking/Selpercatinib/Selpercatinib_seed2026.pdbqt
+
+AutoDock Vina v1.2.5
+#################################################################
+# If you used AutoDock Vina in your work, please cite:          #
+#                                                               #
+# J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  #
+# AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      #
+# Field, and Python Bindings, J. Chem. Inf. Model. (2021)       #
+# DOI 10.1021/acs.jcim.1c00203                                  #
+#                                                               #
+# O. Trott, A. J. Olson,                                        #
+# AutoDock Vina: improving the speed and accuracy of docking    #
+# with a new scoring function, efficient optimization and       #
+# multithreading, J. Comp. Chem. (2010)                         #
+# DOI 10.1002/jcc.21334                                         #
+#                                                               #
+# Please see https://github.com/ccsb-scripps/AutoDock-Vina for  #
+# more information.                                             #
+#################################################################
+
+Scoring function : vina
+Rigid receptor: /content/drive/MyDrive/DDR1_Workflow/candidate_docking/receptor/5SB1_receptor.pdbqt
+Ligand: /content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/ligand_preparation/pdbqt/Selpercatinib.pdbqt
+Grid center: X 22.7647 Y -2.076 Z -1.16663
+Grid size  : X 22 Y 22 Z 22
+Grid space : 0.375
+Exhaustiveness: 32
+CPU: 2
+Verbosity: 1
+
+Computing Vina grid ... done.
+Performing docking (random seed: 2026) ... 
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -8.506          0          0
+   2       -7.008      1.863       10.8
+   3       -6.927      1.954      10.49
+   4       -6.834      4.714      10.85
+   5        -6.83      4.351      7.952
+   6       -6.636      2.473      10.29
+   7       -6.549      5.404       11.2
+   8       -6.492      5.103      11.11
+   9        -6.47      4.374      8.378
+  10       -6.427      4.581      11.05
+  11       -6.194      7.758      13.26
+  12       -5.851      2.175       2.69
+  13       -5.719      5.587      12.27
+  14       -5.518      5.952      10.98
+  15       -5.506      3.402      10.52
+  16       -5.469      4.654      7.719
+  17       -5.311      4.368      11.19
+  18       -5.108      1.991      3.967
+  19       -3.341      2.515      3.721
+  20        5.463      4.976      8.692
+

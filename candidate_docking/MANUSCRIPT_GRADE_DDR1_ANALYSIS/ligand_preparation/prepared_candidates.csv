@@ -1,0 +1,7 @@
+Name,Canonical_SMILES,MMFF_applicable,SDF,Status
+Quizartinib,CC(C)(C)c1cc(NC(=O)Nc2ccc(-c3cn4c(n3)sc3cc(OCCN5CCOCC5)ccc34)cc2)no1,True,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/ligand_preparation/Quizartinib.sdf,PREPARED
+Sorafenib,CNC(=O)c1cc(Oc2ccc(NC(=O)Nc3ccc(Cl)c(C(F)(F)F)c3)cc2)ccn1,True,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/ligand_preparation/Sorafenib.sdf,PREPARED
+Selpercatinib,COc1ccc(CN2C3CC2CN(c2ccc(-c4cc(OCC(C)(C)O)cn5ncc(C#N)c45)cn2)C3)cn1,True,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/ligand_preparation/Selpercatinib.sdf,PREPARED
+Tivozanib,COc1cc2nccc(Oc3ccc(NC(=O)Nc4cc(C)on4)c(Cl)c3)c2cc1OC,True,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/ligand_preparation/Tivozanib.sdf,PREPARED
+Lenvatinib,COc1cc2nccc(Oc3ccc(NC(=O)NC4CC4)c(Cl)c3)c2cc1C(N)=O,True,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/ligand_preparation/Lenvatinib.sdf,PREPARED
+Cabozantinib,COc1cc2nccc(Oc3ccc(NC(=O)C4(C(=O)Nc5ccc(F)cc5)CC4)cc3)c2cc1OC,True,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/ligand_preparation/Cabozantinib.sdf,PREPARED
