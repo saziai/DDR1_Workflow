@@ -1,0 +1,16 @@
+{
+  "report_date": "2026-10-22T13:22:07.569478",
+  "total_compounds": 6,
+  "visualization_dir": "/content/drive/MyDrive/DDR1_Workflow/visualization",
+  "figures_dir": "/content/drive/MyDrive/DDR1_Workflow/visualization/figures",
+  "figures_3d_dir": "/content/drive/MyDrive/DDR1_Workflow/visualization/3D",
+  "report_dir": "/content/drive/MyDrive/DDR1_Workflow/visualization/reports",
+  "interpretation": "Vina scores and PLIP contacts are used for computational prioritization only. Not Delta-G values.",
+  "priority_tier_counts": {
+    "Tier-A": 4,
+    "Tier-B": 2
+  },
+  "best_affinity_kcal_mol": -10.98,
+  "worst_affinity_kcal_mol": -8.506,
+  "mean_affinity_kcal_mol": -9.797333333333333
+}

@@ -1,0 +1,6 @@
+Name,Match_type,Rank_in_DrugBank,Percentile_from_top,predicted_pIC50,max_Tanimoto_to_training
+Ponatinib,exact,1,0.04,8.283,0.735
+Nilotinib,exact,3,0.11,7.421,0.523
+Dasatinib,exact,13,0.5,7.134,0.602
+Imatinib,exact,57,2.18,6.986,0.634
+Bosutinib,exact,310,11.86,6.777,0.253

@@ -1,0 +1,55 @@
+{
+  "n_drugbank_screened": 2614,
+  "n_curated_total": 6,
+  "n_curated_found": 5,
+  "per_drug": [
+    {
+      "Name": "Ponatinib",
+      "Match_type": "exact",
+      "Rank_in_DrugBank": 1,
+      "Percentile_from_top": 0.04,
+      "predicted_pIC50": 8.283,
+      "max_Tanimoto_to_training": 0.735
+    },
+    {
+      "Name": "Nilotinib",
+      "Match_type": "exact",
+      "Rank_in_DrugBank": 3,
+      "Percentile_from_top": 0.11,
+      "predicted_pIC50": 7.421,
+      "max_Tanimoto_to_training": 0.523
+    },
+    {
+      "Name": "Dasatinib",
+      "Match_type": "exact",
+      "Rank_in_DrugBank": 13,
+      "Percentile_from_top": 0.5,
+      "predicted_pIC50": 7.134,
+      "max_Tanimoto_to_training": 0.602
+    },
+    {
+      "Name": "Imatinib",
+      "Match_type": "exact",
+      "Rank_in_DrugBank": 57,
+      "Percentile_from_top": 2.18,
+      "predicted_pIC50": 6.986,
+      "max_Tanimoto_to_training": 0.634
+    },
+    {
+      "Name": "Bosutinib",
+      "Match_type": "exact",
+      "Rank_in_DrugBank": 310,
+      "Percentile_from_top": 11.86,
+      "predicted_pIC50": 6.777,
+      "max_Tanimoto_to_training": 0.253
+    }
+  ],
+  "terminology": "Retrospective external validation. Curated reference drugs are literature-known DDR1 inhibitors selected by hand from the literature, not prospective blind compounds.",
+  "caveats": [
+    "The screening model was trained without the curated drugs and, in exact_plus_scaffold mode, without their Murcko-scaffold analogs.",
+    "DrugBank is a ranking pool, not a decoy set. A high rank means the drug was prioritised above the other DrugBank compounds, not that it is a validated DDR1 inhibitor.",
+    "Ranks are relative to whatever compounds DrugBank happens to contain. They are not enrichment against a curated inactive control set.",
+    "With 4-6 drugs, report each rank individually. Do not aggregate into a 'top X%' claim as if it were a statistical result.",
+    "The predicted pIC50 is a computational estimate, not a measured potency. Vina and PLIP scores downstream are not Delta-G values."
+  ]
+}

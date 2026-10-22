@@ -1,0 +1,282 @@
+{
+  "notebook": "1-DDR1-MODEL",
+  "date": "2026-10-21T17:40:37",
+  "pipeline": "DDR1_ML",
+  "disclaimer": "Predictions are used for computational prioritization only and are not validated experimentally in this study. Vina scores and PLIP contacts produced downstream are not Delta-G values.",
+  "terminology_notes": {
+    "hold_out": "The curated reference drugs are a literature-derived retrospective external-validation hold-out. They are NOT prospective blind compounds: their identity and reported DDR1 activity are known before modelling.",
+    "applicability_domain": "'AD' in this notebook means a Morgan-fingerprint maximum Tanimoto similarity cutoff against the training set. It is a similarity-based chemical-space coverage proxy, not a formal statistical applicability domain.",
+    "prioritization_thresholds": "The pIC50 >= 7.0 / 6.0 and Tanimoto >= 0.50 / 0.40 cuts are predefined heuristic prioritization thresholds. They are not validated biological activity thresholds.",
+    "response_variable": "The response variable is the ChEMBL pChEMBL value restricted to exact IC50 records (standard_type=IC50, relation='='). It is used on the log-molar potency scale: pChEMBL = -log10[IC50, M]. The derived IC50_nM = 10^(9 - pChEMBL) is mathematically consistent.",
+    "target_definition": "The model target is the median molecule-level pChEMBL derived from exact IC50 records: after filtering to standard_type='IC50' and relation='=', all remaining records are canonicalized and grouped by canonical SMILES; each molecule's target is the median pChEMBL of its records. This is not a single standardized experimental IC50 measured under one assay condition.",
+    "cv_vs_nested_cv": "The plain 5-fold scaffold CV in cell 6 is a tuning diagnostic: hyperparameters were selected on the same folds, so it is optimistic. The nested CV (cell 7) reduces selection bias when comparing algorithms and hyperparameters, but the winner is still chosen on those results, so it is not a fully untouched estimate. The scaffold-disjoint external set (cell 8) is the independent final performance test. Do not present the plain CV as an unbiased performance estimate.",
+    "docking_context": "5SB1 (DDR1 with the 1JI-type inhibitor) is the single receptor structure used for redocking and candidate docking; no second DDR1 structure was used. Downstream docking is hypothesis-generating, not predictive of affinity.",
+    "assay_heterogeneity": "ChEMBL5319 contains IC50 records measured under heterogeneous assay formats, construct variants, ATP concentrations and substrates. Treat pChEMBL predictions as relative potency estimates, not substitutes for measurements under one standardised assay condition."
+  },
+  "random_state": 42,
+  "fingerprint": "Morgan(r=2, bits=2048)",
+  "standardization": "Largest organic fragment + charge neutralization (RDKit MolStandardize LargestFragmentChooser + Uncharger). Applied identically to ChEMBL records and to the curated reference list before canonicalisation. Not a pH-aware protonation step.",
+  "ad_thresholds": {
+    "high": 0.5,
+    "moderate": 0.4,
+    "terminology": "Similarity-based applicability-domain proxy: max Tanimoto to training is a fingerprint-based chemical-space coverage metric, not a formal statistical applicability domain.",
+    "justification": "AD_HIGH=0.5 splits high- from moderate-similarity neighbors. AD_MODERATE=0.4 is the hard cut below which DrugBank candidates are excluded from the Top-10. Both are user-set and heuristic."
+  },
+  "training_match_scope": "Full processed dataset (train + external) plus the curated reference drugs and their same-scaffold analogs. Compounds in any of those sets are treated as known and excluded from the Top-10.",
+  "model_selection": {
+    "selected_model": "SVR_Tanimoto",
+    "selected_best_params": {
+      "epsilon": 0.1,
+      "C": 1
+    },
+    "criterion": "Lowest nested-CV RMSE among non-baseline models. Nested CV is used for comparatively less biased model selection; the scaffold-disjoint external set is the independent final performance test.",
+    "baselines": [
+      "MeanBaseline",
+      "KNN_1_Tanimoto"
+    ],
+    "selected_cv_metrics_optimistic": {
+      "Model": "SVR_Tanimoto",
+      "CV_R2_mean": 0.35331808151804606,
+      "CV_R2_SD": 0.06883822989716935,
+      "CV_RMSE_mean": 0.5846492774354035,
+      "CV_RMSE_SD": 0.04918096199050902,
+      "CV_MAE_mean": 0.4405092113301553,
+      "CV_MAE_SD": 0.04913138655104653,
+      "CV_Spearman_mean": 0.614258774839963,
+      "CV_Spearman_SD": 0.05789395929842819,
+      "CV_rank": 1
+    },
+    "nested_cv_used_for_selection": true,
+    "note": "The 'selected_cv_metrics_optimistic' block is the plain 5-fold scaffold CV, which is optimistic because the same folds were used to tune hyperparameters. Nested CV under 'cross_validation.nested_cv_metrics' reduces selection bias during algorithm and hyperparameter comparison but is not a fully untouched estimate, because the winner was chosen on those results. The scaffold-disjoint external validation under 'external_validation' is the independent final performance test."
+  },
+  "cross_validation": {
+    "n_folds": 5,
+    "grouping": "Murcko scaffold (GroupKFold)",
+    "search_iterations": 20,
+    "nested_cv_performed": true,
+    "nested_cv_metrics": [
+      {
+        "Model": "SVR_Tanimoto",
+        "Nested_R2_mean": 0.34955194367645454,
+        "Nested_R2_SD": 0.08789766317771788,
+        "Nested_RMSE_mean": 0.5852919324128931,
+        "Nested_RMSE_SD": 0.044776653590188835
+      },
+      {
+        "Model": "Extra Trees",
+        "Nested_R2_mean": 0.319846298373068,
+        "Nested_R2_SD": 0.05119178946879982,
+        "Nested_RMSE_mean": 0.5994616285342953,
+        "Nested_RMSE_SD": 0.03549923177332641
+      },
+      {
+        "Model": "Random Forest",
+        "Nested_R2_mean": 0.29611600571226826,
+        "Nested_R2_SD": 0.06726622929193805,
+        "Nested_RMSE_mean": 0.6098142680584572,
+        "Nested_RMSE_SD": 0.04274420793695042
+      },
+      {
+        "Model": "Ridge",
+        "Nested_R2_mean": 0.2897510349775515,
+        "Nested_R2_SD": 0.09179394151215932,
+        "Nested_RMSE_mean": 0.6127199971188441,
+        "Nested_RMSE_SD": 0.057682387661850056
+      },
+      {
+        "Model": "XGBoost",
+        "Nested_R2_mean": 0.28754001427825643,
+        "Nested_R2_SD": 0.07437556054822636,
+        "Nested_RMSE_mean": 0.6138293776456741,
+        "Nested_RMSE_SD": 0.05243151588491801
+      },
+      {
+        "Model": "SVR_RBF",
+        "Nested_R2_mean": 0.25617000422152564,
+        "Nested_R2_SD": 0.03939990454574628,
+        "Nested_RMSE_mean": 0.6278037294527742,
+        "Nested_RMSE_SD": 0.04725958970987338
+      }
+    ],
+    "nested_cv_note": "Nested CV was used as the model-selection criterion. See 'cross_validation.nested_cv_metrics'."
+  },
+  "external_validation": {
+    "test_size": 0.2,
+    "split_by": "scaffold (GroupShuffleSplit)",
+    "test_set_description": "Scaffold-disjoint external test set. No Murcko scaffold is shared between the training and external sets; this is a stricter check than a random molecule-level split.",
+    "metrics": {
+      "R2": 0.30252686829201225,
+      "RMSE": 0.5778089933930066,
+      "MAE": 0.41841657295903073,
+      "Spearman": 0.5881522251180159
+    }
+  },
+  "assay_curation": {
+    "raw_records": 1604,
+    "after_ic50_exact_pchembl_filter": 1558,
+    "classification_counts": {
+      "Biochemical": 1204,
+      "Biochemical (binding)": 329,
+      "Cellular": 25
+    },
+    "cellular_records_excluded": 25,
+    "cell_free_binding_records_retained": 329,
+    "ambiguous_records_retained": 0,
+    "after_cellular_exclusion": 1533
+  },
+  "data": {
+    "n_total": 1529,
+    "n_train": 1254,
+    "n_external": 275,
+    "n_unique_scaffolds": 415
+  },
+  "drugbank_funnel": {
+    "total_screened": 2614,
+    "excluded_known_compound": 7,
+    "excluded_out_of_AD": 2601,
+    "insufficient": 0,
+    "high_priority_supported": 1,
+    "high_priority_moderate_AD": 1,
+    "moderate_priority": 4,
+    "lower_priority": 0,
+    "eligible_total": 6,
+    "top10_written": 6
+  },
+  "retrospective_holdout": {
+    "holdout_mode": "exact_plus_scaffold",
+    "holdout_reason": "Pre-specified exact_plus_scaffold mode: 4 exact match(es) and 0 same-Murcko-scaffold analog(s) removed. No compound sharing a Murcko scaffold with a held-out reference drug remains in training.",
+    "exact_matches_K": 4,
+    "scaffold_analogs_M": 0,
+    "removed_total_N": 4,
+    "n_remaining": 1529,
+    "per_drug_status": {
+      "Imatinib": "excluded_as_cellular",
+      "Nilotinib": "present_in_holdout",
+      "Dasatinib": "present_in_holdout",
+      "Ponatinib": "present_in_holdout",
+      "Bafetinib": "not_in_chembl5319",
+      "Bosutinib": "not_in_chembl5319"
+    },
+    "curated_list": {
+      "Imatinib": {
+        "pubchem_cid": 5291,
+        "source": "PubChem CID 5291; reported DDR1 binder in kinome panels.",
+        "smiles_canonical": "Cc1ccc(NC(=O)c2ccc(CN3CCN(C)CC3)cc2)cc1Nc1nccc(-c2cccnc2)n1"
+      },
+      "Nilotinib": {
+        "pubchem_cid": 644241,
+        "source": "PubChem CID 644241; reported DDR1 binder in kinome panels.",
+        "smiles_canonical": "Cc1cn(-c2cc(NC(=O)c3ccc(C)c(Nc4nccc(-c5cccnc5)n4)c3)cc(C(F)(F)F)c2)cn1"
+      },
+      "Dasatinib": {
+        "pubchem_cid": 3062316,
+        "source": "PubChem CID 3062316; reported DDR1 binder in kinome panels.",
+        "smiles_canonical": "Cc1nc(Nc2ncc(C(=O)Nc3c(C)cccc3Cl)s2)cc(N2CCN(CCO)CC2)n1"
+      },
+      "Ponatinib": {
+        "pubchem_cid": 24826799,
+        "source": "PubChem CID 24826799; DDR1 complex PDB 3ZOS.",
+        "smiles_canonical": "Cc1ccc(C(=O)Nc2ccc(CN3CCN(C)CC3)c(C(F)(F)F)c2)cc1C#Cc1cnc2cccnn12"
+      },
+      "Bafetinib": {
+        "pubchem_cid": 11387605,
+        "source": "PubChem CID 11387605; verify InChIKey before final analysis.",
+        "smiles_canonical": "Cc1ccc(NC(=O)c2ccc(CN3CC[C@H](N(C)C)C3)c(C(F)(F)F)c2)cc1Nc1nccc(-c2cncnc2)n1"
+      },
+      "Bosutinib": {
+        "pubchem_cid": 5328940,
+        "source": "PubChem CID 5328940; reported DDR1 binder in kinome panels.",
+        "smiles_canonical": "COc1cc(Nc2c(C#N)cnc3cc(OCCCN4CCN(C)CC4)c(OC)cc23)c(Cl)cc1Cl"
+      }
+    },
+    "terminology_note": "These compounds are a manually curated, literature-known set of DDR1 inhibitors. The correct description is 'retrospective external-validation hold-out', not 'prospective blind test'."
+  },
+  "retrospective_validation": {
+    "n_drugbank_screened": 2614,
+    "n_curated_total": 6,
+    "n_curated_found": 5,
+    "per_drug": [
+      {
+        "Name": "Ponatinib",
+        "Match_type": "exact",
+        "Rank_in_DrugBank": 1,
+        "Percentile_from_top": 0.04,
+        "predicted_pIC50": 8.283,
+        "max_Tanimoto_to_training": 0.735
+      },
+      {
+        "Name": "Nilotinib",
+        "Match_type": "exact",
+        "Rank_in_DrugBank": 3,
+        "Percentile_from_top": 0.11,
+        "predicted_pIC50": 7.421,
+        "max_Tanimoto_to_training": 0.523
+      },
+      {
+        "Name": "Dasatinib",
+        "Match_type": "exact",
+        "Rank_in_DrugBank": 13,
+        "Percentile_from_top": 0.5,
+        "predicted_pIC50": 7.134,
+        "max_Tanimoto_to_training": 0.602
+      },
+      {
+        "Name": "Imatinib",
+        "Match_type": "exact",
+        "Rank_in_DrugBank": 57,
+        "Percentile_from_top": 2.18,
+        "predicted_pIC50": 6.986,
+        "max_Tanimoto_to_training": 0.634
+      },
+      {
+        "Name": "Bosutinib",
+        "Match_type": "exact",
+        "Rank_in_DrugBank": 310,
+        "Percentile_from_top": 11.86,
+        "predicted_pIC50": 6.777,
+        "max_Tanimoto_to_training": 0.253
+      }
+    ],
+    "terminology": "Retrospective external validation. Curated reference drugs are literature-known DDR1 inhibitors selected by hand from the literature, not prospective blind compounds.",
+    "caveats": [
+      "The screening model was trained without the curated drugs and, in exact_plus_scaffold mode, without their Murcko-scaffold analogs.",
+      "DrugBank is a ranking pool, not a decoy set. A high rank means the drug was prioritised above the other DrugBank compounds, not that it is a validated DDR1 inhibitor.",
+      "Ranks are relative to whatever compounds DrugBank happens to contain. They are not enrichment against a curated inactive control set.",
+      "With 4-6 drugs, report each rank individually. Do not aggregate into a 'top X%' claim as if it were a statistical result.",
+      "The predicted pIC50 is a computational estimate, not a measured potency. Vina and PLIP scores downstream are not Delta-G values."
+    ]
+  },
+  "curated_reference_audit_csv": "/content/drive/MyDrive/DDR1_Workflow/data/processed/curated_reference_audit.csv",
+  "curated_reference_audit_note": "Curated SMILES, PubChem CIDs, formulas and InChIKeys are listed in the audit CSV. Formulas were checked against expected values; the InChIKeys must still be confirmed against the PubChem pages by hand before publication (set curated_reference_verified_against_pubchem to true only after doing so).",
+  "curated_reference_verified_against_pubchem": false,
+  "sanity_checks": {
+    "y_scrambling_performed": false,
+    "y_scrambling_note": "No y-scrambling was run. This is a known gap; the scaffold-disjoint external R2 and the retrospective external validation are the primary honesty checks in this notebook.",
+    "nested_cv_performed": true,
+    "held_out_actives_removed_before_split": true
+  },
+  "tool_versions": {
+    "python": "3.13.16",
+    "rdkit": "2026.09.1",
+    "scikit_learn": "1.6.1",
+    "xgboost": "3.4.1",
+    "meeko": "not installed",
+    "pandas": "2.2.3",
+    "numpy": "2.1.3"
+  },
+  "input_files": {
+    "chembl": "/content/drive/MyDrive/DDR1_Workflow/data/raw/CHEMBL5319.xlsx",
+    "drugbank": "/content/drive/MyDrive/DDR1_Workflow/data/raw/FDA_DrugBank_cleaned.xlsx"
+  },
+  "outputs": {
+    "top10_strict": "/content/drive/MyDrive/DDR1_Workflow/ml_model/results/DDR1_DrugBank_Top10_strict.csv",
+    "full_prioritization": "/content/drive/MyDrive/DDR1_Workflow/ml_model/results/DDR1_DrugBank_Prioritization_FINAL.csv",
+    "benchmark": "/content/drive/MyDrive/DDR1_Workflow/ml_model/results/model_benchmark_summary.csv",
+    "paired_comparison_diagnostic": "/content/drive/MyDrive/DDR1_Workflow/ml_model/results/model_vs_baseline_paired.csv",
+    "nested_cv": "/content/drive/MyDrive/DDR1_Workflow/ml_model/results/model_nested_cv_summary.csv",
+    "external_predictions": "/content/drive/MyDrive/DDR1_Workflow/ml_model/results/external_validation_predictions.csv",
+    "retrospective_ranks": "/content/drive/MyDrive/DDR1_Workflow/ml_model/results/retrospective_validation_ranks.csv",
+    "curated_reference_audit": "/content/drive/MyDrive/DDR1_Workflow/data/processed/curated_reference_audit.csv",
+    "best_model": "/content/drive/MyDrive/DDR1_Workflow/ml_model/results/DDR1_best_model_SVR_Tanimoto.joblib"
+  }
+}
