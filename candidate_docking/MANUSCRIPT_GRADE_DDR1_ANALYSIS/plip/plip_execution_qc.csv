@@ -1,8 +1,0 @@
-Name,PLIP_output_dir,Return_code,Runtime_sec,XML_found,Status,QC_note
-Cabozantinib,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/plip/Cabozantinib,0,1.94,True,PASS,
-Entrectinib,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/plip/Entrectinib,0,0.578,True,PASS,
-Lenvatinib,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/plip/Lenvatinib,0,1.516,True,PASS,
-Quizartinib,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/plip/Quizartinib,0,0.647,True,PASS,
-Selpercatinib,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/plip/Selpercatinib,0,1.414,True,PASS,
-Sorafenib,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/plip/Sorafenib,0,1.665,True,PASS,
-Tivozanib,/content/drive/MyDrive/DDR1_Workflow/candidate_docking/MANUSCRIPT_GRADE_DDR1_ANALYSIS/plip/Tivozanib,0,1.368,True,PASS,
